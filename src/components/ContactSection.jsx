@@ -270,7 +270,7 @@ export default function ContactSection() {
             ))}
 
             <motion.a
-              href="https://wa.me/919876543210?text=Hi%2C%20I%27m%20interested%20in%20Learnix%20coaching%20classes"
+              href="https://wa.me/918668583648?text=Hi%2C%20I%27m%20interested%20in%20Learnix%20coaching%20classes"
               target="_blank"
               rel="noopener noreferrer"
               className="glow-btn whatsapp-btn"
