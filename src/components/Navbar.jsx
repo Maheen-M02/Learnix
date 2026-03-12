@@ -15,10 +15,13 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50)
+      if (mobileOpen) setMobileOpen(false)
+    }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [mobileOpen])
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -64,11 +67,13 @@ export default function Navbar() {
         </ul>
 
         <button
-          className="mobile-menu-btn"
+          className={`mobile-menu-btn ${mobileOpen ? 'is-active' : ''}`}
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
-          {mobileOpen ? '✕' : '☰'}
+          <span className="hamburger-line" />
+          <span className="hamburger-line" />
+          <span className="hamburger-line" />
         </button>
       </nav>
     </>

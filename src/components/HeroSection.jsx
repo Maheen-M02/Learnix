@@ -13,16 +13,8 @@ export default function HeroSection() {
   return (
     <section className="hero-section section" id="hero">
       {/* Soft decorative blobs */}
-      <div style={{
-        position: 'absolute', width: 600, height: 600, top: '-15%', right: '-15%',
-        borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 70%)',
-        pointerEvents: 'none'
-      }} />
-      <div style={{
-        position: 'absolute', width: 500, height: 500, bottom: '-10%', left: '-10%',
-        borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)',
-        pointerEvents: 'none'
-      }} />
+      <div className="hero-blob hero-blob-blue" />
+      <div className="hero-blob hero-blob-purple" />
 
       <motion.div
         className="hero-content"

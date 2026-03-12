@@ -56,6 +56,16 @@ export default function App() {
         <TestimonialsSection />
         <ContactSection />
 
+        {/* Floating Mobile CTA */}
+        <div className="mobile-float-cta">
+          <a href="tel:+918308068823" className="glow-btn-outline" style={{ gap: 6 }}>
+            📞 Call Now
+          </a>
+          <a href="#contact" className="glow-btn" style={{ gap: 6 }}>
+            ✦ Enroll Now
+          </a>
+        </div>
+
         <footer className="footer">
           <div style={{ marginBottom: 8 }}>© 2026 <span>Learnix Coaching Classes</span>. All rights reserved.</div>
           <div style={{ fontSize: '0.8rem' }}>Crafted with 💙 for brighter futures</div>

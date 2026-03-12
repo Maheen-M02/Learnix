@@ -86,8 +86,9 @@ export default function TestimonialsSection() {
               </div>
             </div>
           ))}
-        </motion.div>
-      </motion.div>
+        </motion.div>        <div className="swipe-hint">
+          Swipe to read more <span className="swipe-arrow">→</span>
+        </div>      </motion.div>
     </section>
   )
 }
