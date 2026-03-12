@@ -1,0 +1,10 @@
+{
+  "framework": "vite",
+  "buildCommand": "npx vite build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/api/enquiry", "destination": "/api/enquiry" },
+    { "source": "/api/enquiries", "destination": "/api/enquiries" },
+    { "source": "/api/health", "destination": "/api/health" }
+  ]
+}

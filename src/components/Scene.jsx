@@ -3,18 +3,38 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useStore } from '../store'
 
+/* ============ Detect Mobile ============ */
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+  return isMobile
+}
+
 /* ============ Camera Rig ============ */
 function CameraRig() {
+  const isMobile = useIsMobile()
+
   useFrame((state) => {
     const { mousePosition } = useStore.getState()
 
-    const targetX = mousePosition.x * 0.5
-    const targetY = mousePosition.y * 0.3 + 0.5
-    const targetZ = 8
+    if (isMobile) {
+      // On mobile: fixed camera, slightly higher, further back for smaller book
+      state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, 0, 0.03)
+      state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, 0.8, 0.03)
+      state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, 10, 0.03)
+    } else {
+      const targetX = mousePosition.x * 0.5
+      const targetY = mousePosition.y * 0.3 + 0.5
+      const targetZ = 8
 
-    state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, targetX, 0.03)
-    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetY, 0.03)
-    state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, targetZ, 0.03)
+      state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, targetX, 0.03)
+      state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetY, 0.03)
+      state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, targetZ, 0.03)
+    }
 
     state.camera.lookAt(0, 0, 0)
   })
@@ -98,6 +118,10 @@ function Book3D() {
   const backCoverRef = useRef()
   const [openReady, setOpenReady] = useState(false)
   const openProgress = useRef(0)
+  const isMobile = useIsMobile()
+
+  // Scale down on mobile
+  const scale = isMobile ? 0.62 : 1
 
   const coverW = 4.0
   const coverH = 5.2
@@ -125,18 +149,28 @@ function Book3D() {
     if (backCoverRef.current) backCoverRef.current.rotation.y = coverAngle
 
     if (groupRef.current) {
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(
-        groupRef.current.rotation.x, -0.25 + mousePosition.y * 0.06, 0.03
-      )
-      groupRef.current.rotation.z = THREE.MathUtils.lerp(
-        groupRef.current.rotation.z, mousePosition.x * 0.04, 0.03
-      )
+      if (isMobile) {
+        // Gentle auto-rotation on mobile
+        groupRef.current.rotation.x = THREE.MathUtils.lerp(
+          groupRef.current.rotation.x, -0.2 + Math.sin(t * 0.3) * 0.03, 0.02
+        )
+        groupRef.current.rotation.z = THREE.MathUtils.lerp(
+          groupRef.current.rotation.z, Math.sin(t * 0.2) * 0.02, 0.02
+        )
+      } else {
+        groupRef.current.rotation.x = THREE.MathUtils.lerp(
+          groupRef.current.rotation.x, -0.25 + mousePosition.y * 0.06, 0.03
+        )
+        groupRef.current.rotation.z = THREE.MathUtils.lerp(
+          groupRef.current.rotation.z, mousePosition.x * 0.04, 0.03
+        )
+      }
       groupRef.current.position.y = Math.sin(t * 0.4) * 0.06
     }
   })
 
   return (
-    <group ref={groupRef} position={[0, 0, 1]} rotation={[-0.25, Math.PI, 0]}>
+    <group ref={groupRef} position={[0, 0, 1]} rotation={[-0.25, Math.PI, 0]} scale={scale}>
       {/* SPINE */}
       <mesh position={[0, 0, 0]}>
         <boxGeometry args={[spineW, coverH, spineDepth]} />

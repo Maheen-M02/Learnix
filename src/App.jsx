@@ -39,7 +39,7 @@ export default function App() {
 
   return (
     <>
-      {/* 3D Background */}
+      {/* 3D Background — desktop: fixed full-screen */}
       <Canvas3D />
 
       {/* Grid overlay for depth */}

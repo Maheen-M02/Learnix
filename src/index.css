@@ -103,7 +103,13 @@ button {
 
 @media (max-width: 768px) {
   .canvas-container {
-    display: none !important;
+    position: fixed;
+    height: 100vh;
+    height: 100dvh;
+    pointer-events: none;
+    opacity: 0.4;
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 85%);
+    mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 85%);
   }
 }
 
